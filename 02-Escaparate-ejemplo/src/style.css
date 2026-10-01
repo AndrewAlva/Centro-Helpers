@@ -1,0 +1,197 @@
+/* SOLUCIÓN DOCENTE, NO REPARTIR. */
+:root {
+  --concreto: #17171c;
+  --concreto-2: #232329;
+  --papel: #f4efe4;
+  --papel-2: #b9b5ab;
+  --rosa: #ff2e88;
+  --cian: #2ee6d6;
+  --amarillo: #ffd23f;
+  --fuente: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --seguro-sup: env(safe-area-inset-top, 0px);
+  --seguro-inf: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; }
+
+/* Una regla con display (p. ej. .error) le gana al hidden del navegador: lo reforzamos */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--concreto);
+  color: var(--papel);
+  font-family: var(--fuente);
+}
+
+#escena {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* ── marca ── */
+.marca {
+  position: fixed;
+  top: calc(1rem + var(--seguro-sup));
+  left: 1.25rem;
+  pointer-events: none;
+}
+.marca h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.6vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--papel);
+  text-shadow: 2px 2px 0 var(--rosa);
+}
+.marca p {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  color: var(--papel-2);
+}
+
+/* ── ayuda y fps ── */
+.ayuda {
+  position: fixed;
+  left: 1.25rem;
+  bottom: calc(1rem + var(--seguro-inf));
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--papel-2);
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+body.enfocado .ayuda { opacity: 0; }
+.fps {
+  position: fixed;
+  top: calc(1rem + var(--seguro-sup));
+  right: 1.25rem;
+  margin: 0;
+  padding: 0.3rem 0.6rem;
+  font: 600 0.85rem/1.2 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  background: var(--concreto);
+  color: var(--cian);
+  border: 1px solid var(--cian);
+}
+
+/* ── etiqueta que sigue al cursor ── */
+.etiqueta {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  padding: 0.3rem 0.65rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--concreto);
+  background: var(--amarillo);
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(14px, 14px);
+}
+
+/* ── panel de producto ── */
+.panel {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(1.25rem + var(--seguro-inf));
+  width: min(22rem, calc(100vw - 2.5rem));
+  padding: 1.1rem 1.25rem 1.25rem;
+  background: rgba(23, 23, 28, 0.94);
+  border-top: 4px solid var(--rosa);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+}
+.panel.abierto {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.05;
+}
+.panel p {
+  margin: 0 0 1rem;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--papel-2);
+}
+.panel dl { margin: 0 0 1.1rem; }
+.panel dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--concreto-2);
+}
+.panel dt { color: var(--papel-2); font-size: 0.95rem; }
+.panel dd { margin: 0; font-weight: 700; font-size: 0.95rem; text-align: right; }
+.panel button {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  font: 700 1rem var(--fuente);
+  color: var(--concreto);
+  background: var(--cian);
+  border: 0;
+  cursor: pointer;
+}
+.panel button:hover { background: var(--amarillo); }
+.panel button:focus-visible,
+.panel button:focus { outline: 3px solid var(--papel); outline-offset: 2px; }
+
+/* ── carga ── */
+.cargando {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  background: var(--concreto);
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+.cargando.listo { opacity: 0; visibility: hidden; }
+.cargando p { margin: 0; font-size: 1.5rem; font-weight: 800; text-align: center; }
+.barra { width: min(16rem, 70vw); height: 6px; background: var(--concreto-2); }
+.barra span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: var(--rosa);
+  transition: width 0.2s ease;
+}
+
+.error {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-content: center;
+  padding: 2rem;
+  background: var(--concreto);
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .ayuda { display: none; }
+  .panel { left: 1rem; right: 1rem; width: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel, .panel.abierto, .cargando, .barra span { transition: none; }
+}

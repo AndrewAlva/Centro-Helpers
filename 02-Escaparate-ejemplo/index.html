@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- SOLUCIÓN DOCENTE, NO REPARTIR · Interacción y Renderizado Web Avanzado · CC325-21 -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Concreto Skate Shop · escaparate</title>
+    <meta name="description" content="Escaparate 3D de una tienda de skateboarding hecho con three.js." />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="escena" aria-label="Escaparate 3D de la tienda. Usa las flechas para recorrer los productos."></canvas>
+
+    <header class="marca">
+      <h1>Concreto Skate Shop</h1>
+      <p>Escaparate de la semana</p>
+    </header>
+
+    <div id="etiqueta" class="etiqueta" role="tooltip" hidden></div>
+
+    <aside id="panel" class="panel" aria-live="polite" inert>
+      <h2 id="panel-nombre"></h2>
+      <p id="panel-descripcion"></p>
+      <dl>
+        <div><dt>Material en three.js</dt><dd id="panel-material"></dd></div>
+        <div><dt>¿Reacciona a las luces?</dt><dd id="panel-luz"></dd></div>
+        <div><dt>Precio</dt><dd id="panel-precio"></dd></div>
+      </dl>
+      <button id="panel-cerrar" type="button">Volver al escaparate</button>
+    </aside>
+
+    <p class="ayuda">Click en un producto · ← → para recorrerlos · Esc para volver · F muestra los fps</p>
+    <p id="fps" class="fps" hidden></p>
+
+    <div id="cargando" class="cargando" role="status">
+      <p>Abriendo la tienda</p>
+      <div class="barra"><span id="barra-progreso"></span></div>
+    </div>
+    <div id="error" class="error" role="alert" hidden></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
